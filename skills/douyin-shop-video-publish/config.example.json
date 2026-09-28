@@ -4,8 +4,8 @@
     "publish": "https://fxg.jinritemai.com/ffa/content-tool/short-video"
   },
   "sheets": {
-    "task_sheet_url": "https://doc.weixin.qq.com/sheet/REPLACE_WITH_TASK_SHEET_URL",
-    "product_sheet_url": "https://doc.weixin.qq.com/sheet/REPLACE_WITH_PRODUCT_SHEET_URL",
+    "task_sheet_url": "https://doc.weixin.qq.com/sheet/e3_AccAUwaCAO8PwHquQgmQBqjupVS17?scode=AHsABQd8AA4aMVw9vAAccAUwaCAO8&version=5.0.8.6009&platform=win&tab=picdzz",
+    "product_sheet_url": "https://doc.weixin.qq.com/sheet/e3_ACQAFgaXAJgCN8amMKvEHQ2eAtZU0?scode=AHsABQd8AA4wJxQgKOACQAFgaXAJg&tab=BB08J2",
     "task_api_js": "window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]"
   },
   "paths": {
