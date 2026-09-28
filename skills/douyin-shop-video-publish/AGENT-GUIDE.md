@@ -8,9 +8,12 @@
 
 ## 0. 启动前（必做）
 
-1. **定位 config.json**：先找技能目录同级的 `config.json`；不存在 → 提示用户「请复制 config.example.json 为 config.json 并完成配置（见 CONFIG-GUIDE.md）」，暂停等待，**不得用示例默认值直接开工**。
-2. **读取配置**：解析 JSON，取 `pages.*`、`sheets.*`、`paths.*`、`rules.*`；`shops` 可能为空数组（= 跟随登录用户动态发现，见 §2），勿因空数组报错。
-3. **检查登录**：浏览器打开 `pages.home`，确认抖店已登录（右上角有店铺名）；未登录 → 引导用户企业微信扫码登录（`interaction.request_action` type=browserControl）。
+1. **定位 config.json**：先找技能目录同级的 `config.json`；不存在 → **使用技能内置默认配置**（config.example.json 已内置任务表/商品ID表/违禁词表地址），提示用户该处使用的是内置链接、可用自己的 config.json 覆盖。
+2. **读取配置**：解析 JSON，取 `pages.*`、`sheets.*`、`paths.*`、`rules.*`；`shops` 可能为空数组（= 跟随登录用户动态发现，见 §2），勿因空数组报错。**未在 config.json 覆盖的键 → 用 config.example.json 的内置值**。
+3. **登录引导（每次调用必做，不保留登录状态）**：
+   - 打开 `pages.home`：未登录 → `interaction.request_action` type=browserControl 引导用户企业微信扫码登录 → 确认右上角有店铺名后再继续；
+   - 打开任务表 / 商品ID表（内置链接）：未登录 → 同样引导用户现场登录（扫码/账号）→ 确认 `getCellDataAtPosition` 能读到数据再继续；
+   - **不写入、不保存任何 cookie/token/密码**，登录仅本次会话有效；新会话/新调用一律重新检查登录态。
 4. **记录时间基准**：取 Windows 本机当前时间，作为发布时间计算的起点。
 
 ## 1. 全表扫描（任务读取，禁用固定行区间）
