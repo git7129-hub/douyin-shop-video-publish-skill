@@ -25,3 +25,8 @@ docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录�
 
 - 本仓库为 **private（仅个人可见）**；内置链接为资源地址（非凭据），技能不保存登录状态；
 - 分享给他人时，对方需有对应文档权限才能用；必要时将内置链接替换为对方自己的文档（config.json 覆盖）。
+
+## 版本与发布
+
+- 每次更新递增版本号（`vX.Y.Z`，见 `CHANGELOG.md`）并发布 **GitHub Release**：tag 与发布说明取自 `CHANGELOG.md` 对应版本段落；
+- Releases 页面始终显示最新版本与变更说明；本地同步脚本 `sync_skill.ps1`（不随仓库发布）负责执行递增 + 推送 + 创建 Release。
