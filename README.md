@@ -10,10 +10,11 @@ skills/douyin-shop-video-publish/AGENT-GUIDE.md      # ★ Agent 操作手册（
 skills/douyin-shop-video-publish/CONFIG-GUIDE.md     # ★ 新部署者手把手配置引导（推荐从这开始）
 skills/douyin-shop-video-publish/config.example.json # 配置（已内置任务表/商品ID表链接；复制为 config.json 可覆盖）
 skills/douyin-shop-video-publish/README.md           # 技能目录内安装说明
+docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录（问题与解决、规则演进 → 技能进化依据）
 CHANGELOG.md                                          # 版本变更记录（Release 说明来源）
 ```
 
-> 本仓库**只含技能运行所需文件**：技能本体、配置模板、安装/操作/配置引导、版本记录。个人业务数据（每日运行记录、任务表/商品ID数据、同步脚本等）**不上传**。
+> 本仓库包含：技能本体、配置模板、安装/操作/配置引导、运行记录（问题与解决、规则演进，供技能自我进化）、版本记录。**同步脚本与同步机制说明不属于仓库内容**（本地工具，不随仓库发布）。
 
 ## 安装与使用（给新部署者）
 
