@@ -9,11 +9,13 @@
    skills/
    └── douyin-shop-video-publish/
        ├── SKILL.md            ← 技能本体（先读）
+       ├── AGENT-GUIDE.md      ← ★ Agent 操作手册（给执行 Agent 的机器级协议）
        ├── CONFIG-GUIDE.md     ← ★ 手把手配置引导（新部署者从这里开始）
        ├── config.example.json ← 配置模板（复制为 config.json 后填写）
        └── README.md
    ```
 2. **按 `CONFIG-GUIDE.md` 逐步配置**（约 15 分钟）：创建 config.json → 填文档链接/本地路径/店铺清单 → 准备违禁词表与商品ID表 → 登录 → 验证全表扫描。
+3. **执行 Agent 按 `AGENT-GUIDE.md` 操作**（机器级协议：全表扫描、店铺队列、发布面板每一步、回填、人工处理、断点续跑）。
 3. 登录抖店（企业微信扫码）与任务表平台。
 4. 验证：执行一次「全表扫描」能读到任务表即部署成功。
 
