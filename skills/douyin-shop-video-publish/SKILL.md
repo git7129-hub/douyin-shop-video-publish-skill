@@ -20,8 +20,6 @@ metadata:
 |---|---|
 | 支持 Agent Skills 的客户端 | 将本技能目录（含 SKILL.md）放入客户端 skills 根目录即可被识别 |
 | 浏览器自动化 | 豆包浏览器 / `computer_use_tool`（plane=bu，`seed_browser_use`） |
-| PowerShell 5.1+ | 本地同步脚本 `sync_skill.ps1`（**本地私有，不随仓库发布**；仅部署机做 GitHub 同步时用） |
-| git / gh CLI（可选） | GitHub 私有仓库同步（`gh auth login` 一次，token 持久保存在系统凭据） |
 | Python 3 + openpyxl | 读取本地违禁词表 / 商品ID.xlsx（可选，页面可替代部分功能） |
 
 ### 0.2 安装步骤
@@ -31,14 +29,13 @@ metadata:
 3. **执行 Agent 请以 `AGENT-GUIDE.md` 为操作协议**（同目录）：含每步输入/输出、工具调用、JS 片段、判定与暂停条件、回填与断点续跑——本文件只给业务方法论；
 4. **创建配置**：复制 `config.example.json` 为 `config.json`（与 SKILL.md 同目录），按「一、配置项说明」填写；
 5. **准备资产**：按配置路径放置违禁词表（xlsx）与商品ID表（xlsx 或腾讯文档）；
-6. **登录**：按 0.3 完成抖店 / 任务表平台 / GitHub 登录；
+6. **登录**：按 0.3 完成抖店 / 任务表平台登录；
 7. **验证**：运行一次「全表扫描」（见「二、1」）确认能读到任务表，即部署成功。
 
 ### 0.3 登录流程（首次部署）
 
 1. **抖店**：浏览器打开 `config.json` 的 `pages.home` → 企业微信扫码登录主账号 → 确认右上角可见店铺名与「切换组织/店铺」；
-2. **任务表平台（腾讯文档）**：打开 `sheets.task_sheet_url` → 登录 → 确认能读取数据（支持 `window.SpreadsheetApp...` JS API）；
-3. **GitHub（可选）**：`gh auth login --web` → 浏览器输入一次性代码 → 授权（token 持久化，无需重复登录）。
+2. **任务表平台（腾讯文档）**：打开 `sheets.task_sheet_url` → 登录 → 确认能读取数据（支持 `window.SpreadsheetApp...` JS API）。
 
 ### 0.4 安全与分享
 
@@ -65,7 +62,6 @@ metadata:
 | `rules.huan_yihuan_max` | 违禁词换一换上限 | `5` |
 | `rules.timed_hours_gap` | 同店相邻视频发布时间间隔（小时） | `2` |
 | `rules.publish_window` | 当天允许的发布时间窗口（空=不限） | 私有 |
-| `sync.repo` / `sync.branch` | GitHub 同步目标（可选） | `owner/repo` / `main` |
 
 未配置的键：使用示例默认值并提示部署者补全；涉及发布/回填等关键动作时，**配置缺失必须暂停人工处理**，不得猜测。
 
@@ -208,7 +204,6 @@ metadata:
 | 8 | 换一换按钮非 button 标签 | 用文本定位描述区 div/span「换一换」 |
 | 9 | 子账号无首页权限 | 短视频运营页权限正常，直接导航即可 |
 | 10 | 多 tab 切换误判「面板已关闭」 | 切回目标 tab 后发布面板/上传状态保留，避免重复上传 |
-| 11 | git 443 端口被网络拦截 | 同步改用 gh API contents 直传（本地 `sync_skill.ps1`），不依赖 git 网络 |
 
 ## 五、默认业务规则（可在 config.rules 覆盖）
 
@@ -232,6 +227,6 @@ metadata:
 
 ## 八、更新维护约定
 
-- 每次运行产生的新问题、解决方法和新增规则，**同步追加**到「四、问题与解决记录」「五、默认业务规则」与当日运行记录，并推送到 `sync.repo`（私有）。
-- 版本号在每次同步时递增（2.0.0 → 2.0.1 → ...）。
+- 每次运行产生的新问题、解决方法和新增规则，**追加**到「四、问题与解决记录」「五、默认业务规则」与当日运行记录。
+- 版本号在每次更新时递增（2.0.0 → 2.0.1 → ...）。
 - 分享时仅分享本目录（SKILL.md + config.example.json + assets），不包含真实 config.json 与运行历史。
