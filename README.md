@@ -11,8 +11,9 @@ skills/douyin-shop-video-publish/CONFIG-GUIDE.md     # ★ 新部署者手把手
 skills/douyin-shop-video-publish/config.example.json # 配置模板（复制为 config.json 后填写私有信息）
 skills/douyin-shop-video-publish/README.md           # 技能目录内安装说明
 docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录（问题与解决、结果汇总）
-tools/sync_skill.ps1                                  # 同步脚本：本地技能目录 + 运行记录 → 本仓库（gh API 直传）
 ```
+
+> 同步脚本 `sync_skill.ps1` 为**本地私有工具**，不随本仓库发布；需要同步本仓库内容时在部署机本地运行（见下）。
 
 ## 安装与使用（给新部署者）
 
@@ -21,10 +22,10 @@ tools/sync_skill.ps1                                  # 同步脚本：本地技
 3. **执行 Agent**：按 `AGENT-GUIDE.md` 操作（全表扫描、店铺队列、发布每一步、回填、人工处理、断点续跑）；
 4. 全表扫描能读到任务表即部署成功，按 SKILL.md「二、核心执行流程」运行。
 
-## 同步机制
+## 同步机制（部署机本地，私有）
 
 - 每次运行结束，Agent 更新技能目录（SKILL.md 追加问题与解决 / 规则 / 运行记录）；
-- 每晚 23:30 Windows 计划任务「DouyinSkillSync」自动运行 `sync_skill.ps1` 推送（gh API 直传，不依赖 git 443）；
+- 每晚 23:30 Windows 计划任务「DouyinSkillSync」自动运行本地 `sync_skill.ps1` 推送（gh API 直传，不依赖 git 443）；
 - 手动执行：
   ```powershell
   powershell -ExecutionPolicy Bypass -File "E:\测试专用\豆包\抖店发布\sync_skill.ps1"
