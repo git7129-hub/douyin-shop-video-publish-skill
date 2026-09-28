@@ -9,7 +9,7 @@
     "task_api_js": "window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]"
   },
   "paths": {
-    "video_dir": "D:\\douyinshopvideo_publish\\",
+    "video_dir": "./video_tmp",
     "banned_words_xlsx": "D:\\douyin_shop_video_publish\\违禁词表.xlsx",
     "product_id_xlsx": "D:\\douyin_shop_video_publish\\商品ID.xlsx",
     "run_log_dir": "REPLACE_WITH_RUN_LOG_DIR"
@@ -19,6 +19,7 @@
     "max_concurrency": 2,
     "huan_yihuan_max": 5,
     "timed_hours_gap": 2,
-    "publish_window": ""
+    "publish_window": "",
+    "archive_keep_days": 30
   }
 }
