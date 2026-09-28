@@ -8,14 +8,12 @@
    ```
    skills/
    └── douyin-shop-video-publish/
-       ├── SKILL.md              ← 技能本体（先读）
-       ├── config.example.json   ← 配置模板（复制为 config.json 后填写）
+       ├── SKILL.md            ← 技能本体（先读）
+       ├── CONFIG-GUIDE.md     ← ★ 手把手配置引导（新部署者从这里开始）
+       ├── config.example.json ← 配置模板（复制为 config.json 后填写）
        └── README.md
    ```
-2. 复制 `config.example.json` 为 `config.json`，填写你的：
-   - 任务表 / 商品ID表（腾讯文档）URL
-   - 本地视频目录、违禁词表、商品ID表路径
-   - 店铺清单与规则参数
+2. **按 `CONFIG-GUIDE.md` 逐步配置**（约 15 分钟）：创建 config.json → 填文档链接/本地路径/店铺清单 → 准备违禁词表与商品ID表 → 登录 → 验证全表扫描。
 3. 登录抖店（企业微信扫码）与任务表平台。
 4. 验证：执行一次「全表扫描」能读到任务表即部署成功。
 
