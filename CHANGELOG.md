@@ -2,6 +2,16 @@
 
 本技能仓库的版本记录。每次更新递增版本号并创建 GitHub Release（tag = `vX.Y.Z`），Release 说明取对应版本段落。
 
+## v2.0.6
+
+**更新了什么**
+- 仓库只保留技能运行所需文件：移除 `docs/run-log/`（每日业务运行记录属个人数据，不再上传）；README / SKILL.md 去除同步脚本与同步机制描述；同步脚本（本地工具）不随仓库发布
+
+**如何操作（升级）**
+- 将本仓库 `skills/douyin-shop-video-publish/` 整个目录覆盖到客户端 skills 根目录即可（技能目录内 README.md 有安装说明）；
+- 已有 config.json 无需改动（本版未变更配置结构）；未配置过则复制 `config.example.json` 为 `config.json`，按 `CONFIG-GUIDE.md` 填写；
+- 首次运行请先读 `SKILL.md` 与 `AGENT-GUIDE.md`，按「全表扫描 → 动态发现店铺 → 逐店处理」流程执行。
+
 ## v2.0.5
 
 - **新增：标准 GitHub 发布流程**：每次同步递增版本号后自动创建 GitHub Release（tag `v2.0.5` + 变更说明），Releases 页面不再空白
