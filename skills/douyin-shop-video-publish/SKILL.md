@@ -2,7 +2,7 @@
 name: douyin-shop-video-publish
 description: 抖店（抖音小店）短视频自动发布 Agent 技能（可配置、可分享）。按任务表驱动，自动完成视频查找、微盘下载、上传、挂车/非挂车判断、商品匹配、标题描述生成、违禁词检查（含换一换与商品ID表话题兜底）、AI内容声明、话题添加（SOP下拉选择）、发布时间计算（平台时间优先）、发布、成功验证与任务表回填。遵守：页面真实状态优先、防重复发布、禁止猜测、按店铺并发同店串行、发完当日挂车额度后不再发非挂车、测试/违规视频跳过、每店处理完先总结记录、断点续跑。所有 URL、路径与业务规则通过 config.json 配置，部署后即可在不同账号/店铺体系下复用。适用于在豆包浏览器（browser-use-automation / computer_use_tool plane=bu）中运行的自动化发布任务。
 metadata:
-  version: 2.0.0
+  version: 2.0.2
   platform: windows
   requires:
     bins: ["git", "gh", "python"]
