@@ -13,23 +13,12 @@ skills/douyin-shop-video-publish/README.md           # 技能目录内安装说�
 docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录（问题与解决、结果汇总）
 ```
 
-> 同步脚本 `sync_skill.ps1` 为**本地私有工具**，不随本仓库发布；需要同步本仓库内容时在部署机本地运行（见下）。
-
 ## 安装与使用（给新部署者）
 
 1. 将 `skills/douyin-shop-video-publish/` 整个目录复制到客户端 skills 根目录；
 2. **人**：按 `CONFIG-GUIDE.md` 手把手配置（创建 config.json → 填文档链接/路径/店铺 → 准备违禁词表与商品ID表 → 登录 → 验证，约 15 分钟）；
 3. **执行 Agent**：按 `AGENT-GUIDE.md` 操作（全表扫描、店铺队列、发布每一步、回填、人工处理、断点续跑）；
 4. 全表扫描能读到任务表即部署成功，按 SKILL.md「二、核心执行流程」运行。
-
-## 同步机制（部署机本地，私有）
-
-- 每次运行结束，Agent 更新技能目录（SKILL.md 追加问题与解决 / 规则 / 运行记录）；
-- 每晚 23:30 Windows 计划任务「DouyinSkillSync」自动运行本地 `sync_skill.ps1` 推送（gh API 直传，不依赖 git 443）；
-- 手动执行：
-  ```powershell
-  powershell -ExecutionPolicy Bypass -File "E:\测试专用\豆包\抖店发布\sync_skill.ps1"
-  ```
 
 ## 私有性与分享
 
