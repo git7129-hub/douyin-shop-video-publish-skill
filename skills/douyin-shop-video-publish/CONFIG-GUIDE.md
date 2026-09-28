@@ -43,12 +43,15 @@ Copy-Item config.example.json config.json
 | `pages.home` | 抖店商家后台首页 | 默认即可：`https://fxg.jinritemai.com/ffa/mshop/homepage/index` |
 | `pages.publish` | 短视频运营页 | 默认即可：`https://fxg.jinritemai.com/ffa/content-tool/short-video` |
 
-### 3.2 文档（必填，最核心）
+### 3.2 文档（已内置，可跳过或覆盖）
+
+> 技能已**内置**任务表 / 商品ID表链接（config.example.json 默认值），开箱即用，无需填写。
+> 如需改用你自己的文档：覆盖 `sheets.task_sheet_url` / `sheets.product_sheet_url` 即可。
 
 | 字段 | 填什么 | 去哪拿 |
 |---|---|---|
-| `sheets.task_sheet_url` | **任务表**（腾讯文档/在线表格）完整 URL | 打开你的任务表 → 浏览器地址栏复制 |
-| `sheets.product_sheet_url` | **商品ID在线表**（含 型号→商品编号→话题 列）完整 URL | 打开你的商品ID表 → 地址栏复制 |
+| `sheets.task_sheet_url` | 任务表（腾讯文档/在线表格）完整 URL | **已内置**；覆盖时打开你的任务表 → 地址栏复制 |
+| `sheets.product_sheet_url` | 商品ID在线表（含 型号→商品编号→话题 列）完整 URL | **已内置**；覆盖时打开你的商品ID表 → 地址栏复制 |
 | `sheets.task_api_js` | 任务表读取用的 JS API | 腾讯文档保持默认：`window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]`；其他平台按平台脚本改 |
 
 > 任务表至少要包含：视频名（A）、店铺（D）、发布时间（E）、备注（F），列位置可在技能规则里调整。
@@ -86,10 +89,12 @@ Copy-Item config.example.json config.json
 1. **违禁词表**：准备一个 xlsx，Sheet1 第一列每行一个违禁词（如：超、最、第一、顶级、必备、神器、微信、电话号、二维码、网址）。路径填到 `paths.banned_words_xlsx`。
 2. **商品ID表**：确保在线表/本地表有每型号的 店铺+型号+商品编号（+话题栏）。发布时技能按「店铺+型号」精确匹配，**匹配不到或匹配到多个会暂停等你处理，绝不自动猜编号**。
 
-## 第五步：登录（3 分钟）
+## 第五步：登录（调用时引导，不保留登录状态）
 
-1. **抖店**：让 Agent 打开 `pages.home` → 你会看到企业微信扫码 → 扫码登录主账号 → 确认右上角能显示店铺名和「切换组织/店铺」。
-2. **任务表平台（腾讯文档）**：打开 `sheets.task_sheet_url` → 登录 → 确认能读到表格数据。
+> 技能**不保存任何登录状态**（无 cookie / token / 自动登录）。每次调用技能，Agent 会在需要时引导你现场登录；登录仅当次会话有效。
+
+1. **抖店**：Agent 打开 `pages.home` 后若未登录 → 你会看到企业微信扫码 → 扫码登录主账号 → 确认右上角能显示店铺名和「切换组织/店铺」。
+2. **任务表/商品ID表（腾讯文档）**：Agent 打开内置链接后若未登录 → 引导你登录（扫码/账号）→ 确认能读到表格数据。
 
 ## 第六步：验证配置（2 分钟）
 
@@ -121,5 +126,6 @@ Copy-Item config.example.json config.json
 
 ## 安全提醒
 
-- `config.json` 含你的文档链接与本地路径，**属于私有信息**；分享技能时只分享除 config.json 外的文件；
-- 不要把你的任务表/商品ID表链接提交到任何公开仓库。
+- 技能内置任务表/商品ID表链接（**资源地址，非凭据**），打开后仍需登录才能看内容；
+- 技能**不保存登录状态**，登录仅当次会话有效，任何调用都不写 cookie/token/密码；
+- 公开分享技能前请评估：内置链接指向你的私有文档，对方需有对应文档权限才能用；必要时把链接替换为对方自己的文档（改 config.json 即可覆盖内置值）。
