@@ -22,7 +22,7 @@
 ## 使用
 
 - 全流程细节见 `SKILL.md`（零、安装与配置；二、核心执行流程）。
-- 运行记录同步到 GitHub 私有仓库：部署机本地运行 `sync_skill.ps1`（**本地私有工具，不随本技能发布**）。
+- 执行 Agent 操作见 `AGENT-GUIDE.md`；配置见 `CONFIG-GUIDE.md`。
 
 ## 分享
 
