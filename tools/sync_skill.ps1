@@ -1,9 +1,11 @@
 # Douyin shop skill + run-log sync -> GitHub private repo (douyin-shop-video-publish-skill)
 # Uses gh api contents PUT (works even when git 443 is blocked).
 # Usage: powershell -ExecutionPolicy Bypass -File sync_skill.ps1
-# Pushes: skills/douyin-shop-video-publish/SKILL.md
-#         docs/run-log/<latest run log>.md
-#         tools/sync_skill.ps1
+# Pushes:
+#   skills/douyin-shop-video-publish/{SKILL.md,config.example.json,README.md}
+#   docs/run-log/<latest run log>.md
+#   tools/sync_skill.ps1
+#   README.md (repo root, from local skill-repo checkout)
 
 $ErrorActionPreference = "Stop"
 
@@ -11,8 +13,9 @@ $repo = "git7129-hub/douyin-shop-video-publish-skill"
 $branch = "main"
 
 $RealProjectDir = [System.IO.File]::ReadAllText("$PSScriptRoot\.sync_realpath.txt", [System.Text.Encoding]::UTF8).Trim()
-$SkillSrc = Join-Path $RealProjectDir "douyin-shop-video-publish\SKILL.md"
+$SkillDir = Join-Path $RealProjectDir "douyin-shop-video-publish"
 $LogDir = $RealProjectDir
+$RepoCheckout = Join-Path $RealProjectDir "_repo_sync\douyin-shop-video-publish-skill"
 
 function Put-GhFile {
     param([string]$path, [string]$file, [string]$msg)
@@ -33,8 +36,11 @@ function Put-GhFile {
     else { Write-Output "PUSH FAIL: $path :: $($out.Trim())" }
 }
 
-# 1. SKILL.md
-Put-GhFile "skills/douyin-shop-video-publish/SKILL.md" $SkillSrc "sync: SKILL.md update"
+# 1. skill dir files (SKILL.md, config.example.json, README.md)
+Get-ChildItem -Path $SkillDir -File | ForEach-Object {
+    $rel = "skills/douyin-shop-video-publish/$($_.Name)"
+    Put-GhFile $rel $_.FullName ("sync: skill file " + $_.Name)
+}
 
 # 2. latest run log (file name like 2026-09-28 ....md)
 $latest = Get-ChildItem -Path $LogDir -Filter "*.md" -File |
@@ -48,5 +54,10 @@ if ($latest) {
 
 # 3. sync script itself
 Put-GhFile "tools/sync_skill.ps1" "$PSScriptRoot\sync_skill.ps1" "sync: sync_skill.ps1 update"
+
+# 4. repo root README (source = local checkout of the skill repo)
+if (Test-Path "$RepoCheckout\README.md") {
+    Put-GhFile "README.md" "$RepoCheckout\README.md" "sync: README update"
+}
 
 Write-Output "SYNC DONE"
