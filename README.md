@@ -6,18 +6,19 @@
 
 ```
 skills/douyin-shop-video-publish/SKILL.md            # 技能本体（标准 GitHub Agent Skill 格式，可配置版 v2）
-skills/douyin-shop-video-publish/CONFIG-GUIDE.md      # ★ 新部署者手把手配置引导（推荐从这开始）
-skills/douyin-shop-video-publish/config.example.json  # 配置模板（复制为 config.json 后填写私有信息）
-skills/douyin-shop-video-publish/README.md            # 技能目录内安装说明
-docs/run-log/YYYY-MM-DD运行记录.md                     # 每日运行记录（问题与解决、结果汇总）
-tools/sync_skill.ps1                                   # 同步脚本：本地技能目录 + 运行记录 → 本仓库（gh API 直传）
+skills/douyin-shop-video-publish/AGENT-GUIDE.md      # ★ Agent 操作手册（给执行 Agent 的机器级协议）
+skills/douyin-shop-video-publish/CONFIG-GUIDE.md     # ★ 新部署者手把手配置引导（推荐从这开始）
+skills/douyin-shop-video-publish/config.example.json # 配置模板（复制为 config.json 后填写私有信息）
+skills/douyin-shop-video-publish/README.md           # 技能目录内安装说明
+docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录（问题与解决、结果汇总）
+tools/sync_skill.ps1                                  # 同步脚本：本地技能目录 + 运行记录 → 本仓库（gh API 直传）
 ```
 
 ## 安装与使用（给新部署者）
 
 1. 将 `skills/douyin-shop-video-publish/` 整个目录复制到客户端 skills 根目录；
-2. **按 `CONFIG-GUIDE.md` 手把手配置**：创建 config.json → 填任务表/商品ID表 URL、本地路径、店铺清单、规则参数 → 准备违禁词表与商品ID表 → 登录 → 验证全表扫描（约 15 分钟）；
-3. 登录抖店（企业微信扫码）与任务表平台（腾讯文档）；
+2. **人**：按 `CONFIG-GUIDE.md` 手把手配置（创建 config.json → 填文档链接/路径/店铺 → 准备违禁词表与商品ID表 → 登录 → 验证，约 15 分钟）；
+3. **执行 Agent**：按 `AGENT-GUIDE.md` 操作（全表扫描、店铺队列、发布每一步、回填、人工处理、断点续跑）；
 4. 全表扫描能读到任务表即部署成功，按 SKILL.md「二、核心执行流程」运行。
 
 ## 同步机制
