@@ -2,6 +2,19 @@
 
 本技能仓库的版本记录。每次更新递增版本号并创建 GitHub Release（tag = `vX.Y.Z`），Release 说明取对应版本段落。
 
+## v2.0.7
+
+**更新了什么**
+- 新增**视频文件生命周期管理（方案 B）**：发布成功且任务表回填验证通过后，视频自动移入 `paths.video_dir/archive/` 归档；每次运行开始时自动清理超过 `rules.archive_keep_days` 天（默认 30）的归档文件（填 `0`=发布后直接删除）
+- **视频暂存目录改为技能目录内相对路径**：`paths.video_dir` 默认 `./video_tmp`（相对技能目录，与技能保存在一起便于整理），支持绝对路径覆盖；目录缺失仍询问是否创建，不报错中断
+- 断点续跑规则补充：归档目录文件视为已发布完成，不参与续跑/防重复判断
+
+**如何操作（升级）**
+- 将本仓库 `skills/douyin-shop-video-publish/` 整个目录覆盖到客户端 skills 根目录；
+- 已有 `config.json` 中若配置了旧的 `paths.video_dir`（如 `D:\douyinshopvideo_publish\`）：不填则自动使用新默认 `./video_tmp`（技能目录下）；想继续用原绝对路径则保留原值即可；
+- 想改变清理周期：在 `config.json` 的 `rules.archive_keep_days` 填天数（默认 30，`0`=发布后立即删除）；
+- 首次运行请先读 `SKILL.md` 与 `AGENT-GUIDE.md`，按「全表扫描 → 动态发现店铺 → 逐店处理」流程执行。
+
 ## v2.0.6
 
 **更新了什么**
