@@ -1,0 +1,31 @@
+{
+  "pages": {
+    "home": "https://fxg.jinritemai.com/ffa/mshop/homepage/index",
+    "publish": "https://fxg.jinritemai.com/ffa/content-tool/short-video"
+  },
+  "sheets": {
+    "task_sheet_url": "https://doc.weixin.qq.com/sheet/REPLACE_WITH_TASK_SHEET_URL",
+    "product_sheet_url": "https://doc.weixin.qq.com/sheet/REPLACE_WITH_PRODUCT_SHEET_URL",
+    "task_api_js": "window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]"
+  },
+  "paths": {
+    "video_dir": "D:\\douyin_shop_video_publish\\temp file\\",
+    "banned_words_xlsx": "D:\\douyin_shop_video_publish\\违禁词表.xlsx",
+    "product_id_xlsx": "D:\\douyin_shop_video_publish\\商品ID.xlsx",
+    "run_log_dir": "REPLACE_WITH_RUN_LOG_DIR"
+  },
+  "shops": [
+    "REPLACE_WITH_SHOP_A",
+    "REPLACE_WITH_SHOP_B"
+  ],
+  "rules": {
+    "max_concurrency": 2,
+    "huan_yihuan_max": 5,
+    "timed_hours_gap": 2,
+    "publish_window": ""
+  },
+  "sync": {
+    "repo": "git7129-hub/douyin-shop-video-publish-skill",
+    "branch": "main"
+  }
+}
