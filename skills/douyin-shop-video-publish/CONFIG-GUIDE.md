@@ -80,15 +80,6 @@ Copy-Item config.example.json config.json
 | `rules.timed_hours_gap` | `2` | 同店相邻视频定时发布间隔（小时） |
 | `rules.publish_window` | `""` | 当天允许的发布时间窗口（如 `"23:59"`）；留空=不限 |
 
-### 3.6 GitHub 同步（可选）
-
-| 字段 | 填什么 |
-|---|---|
-| `sync.repo` | 你的私有仓库 `owner/repo`（默认指向本技能仓库） |
-| `sync.branch` | `main` |
-
-不打算同步运行记录到 GitHub 就留默认，不影响发布功能。
-
 ## 第四步：准备资产（2 分钟）
 
 1. **违禁词表**：准备一个 xlsx，Sheet1 第一列每行一个违禁词（如：超、最、第一、顶级、必备、神器、微信、电话号、二维码、网址）。路径填到 `paths.banned_words_xlsx`。
@@ -98,7 +89,6 @@ Copy-Item config.example.json config.json
 
 1. **抖店**：让 Agent 打开 `pages.home` → 你会看到企业微信扫码 → 扫码登录主账号 → 确认右上角能显示店铺名和「切换组织/店铺」。
 2. **任务表平台（腾讯文档）**：打开 `sheets.task_sheet_url` → 登录 → 确认能读到表格数据。
-3. **GitHub（可选）**：仅同步运行记录需要，`gh auth login --web` 授权一次即可。
 
 ## 第六步：验证配置（2 分钟）
 
@@ -125,7 +115,6 @@ Copy-Item config.example.json config.json
 | 「话题 #xxx 加不进去」 | 必须**输入 #话题 → 等待下拉 → 选择第一个匹配**，不能纯文本输入；下拉未出现通常是输入过快，稍等再输 |
 | 「定时时间总是被平台改」 | 抖店只允许未来 2 小时-14 天定时；早于最早可定时会被平台自动调整——**以平台显示时间为准回填**，属正常 |
 | 「上传视频失败/停在 00:00」 | 页面重渲染后需重走发布面板；确认视频文件完整（非 `.crdownload`） |
-| 「同步到 GitHub 失败」 | 本机 git 443 可能被网络拦截——同步脚本已改用 gh API 直传并自动重试；确认 `gh auth status` 已登录 |
 
 ---
 
