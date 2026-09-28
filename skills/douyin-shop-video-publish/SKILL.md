@@ -2,7 +2,7 @@
 name: douyin-shop-video-publish
 description: 抖店（抖音小店）短视频自动发布 Agent 技能（可配置、可分享）。按任务表驱动，自动完成视频查找、微盘下载、上传、挂车/非挂车判断、商品匹配、标题描述生成、违禁词检查（含换一换与商品ID表话题兜底）、AI内容声明、话题添加（SOP下拉选择）、发布时间计算（平台时间优先）、发布、成功验证与任务表回填。遵守：页面真实状态优先、防重复发布、禁止猜测、按店铺并发同店串行、发完当日挂车额度后不再发非挂车、测试/违规视频跳过、每店处理完先总结记录、断点续跑。所有 URL、路径与业务规则通过 config.json 配置，部署后即可在不同账号/店铺体系下复用。适用于在豆包浏览器（browser-use-automation / computer_use_tool plane=bu）中运行的自动化发布任务。
 metadata:
-  version: 2.0.3
+  version: 2.0.4
   platform: windows
   requires:
     bins: ["git", "gh", "python"]
@@ -57,7 +57,7 @@ metadata:
 | `sheets.task_sheet_url` | 任务表（腾讯文档）URL | **已内置**（config.example.json 默认值，可覆盖） |
 | `sheets.product_sheet_url` | 商品ID在线表（含型号→编号→话题）URL | **已内置**（config.example.json 默认值，可覆盖） |
 | `sheets.task_api_js` | 任务表读取 JS API | `window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]` |
-| `paths.video_dir` | 视频暂存目录 | `D:\douyin_shop_video_publish\temp file\` |
+| `paths.video_dir` | 视频暂存目录（**不存在时询问用户是否创建**，不直接报错缺失） | `D:\douyinshopvideo_publish\`（内置） |
 | `paths.banned_words_xlsx` | 违禁词表（本地 xlsx，也支持在线链接） | `D:\douyin_shop_video_publish\违禁词表.xlsx`（内置） |
 | `paths.product_id_xlsx` | 商品ID本地表（可选） | `D:\douyin_shop_video_publish\商品ID.xlsx` |
 | `paths.run_log_dir` | 运行记录目录 | 私有 |
@@ -111,6 +111,7 @@ metadata:
 ### 5. 视频下载
 
 - 从任务表 A 列超链接取微盘地址，打开 → 点「下载」按钮 → `bu.wait_for_download` 拿到完整文件（禁止把 `.crdownload` 当完成）。
+- **视频工作目录检查（`paths.video_dir`）**：目录不存在 → **询问用户是否创建该目录**（提示：`paths.video_dir` 不存在，是否创建？）——用户同意 → 创建目录后继续；用户拒绝/不确定 → 暂停人工处理。**不得直接报「目录缺失」中断**。
 - 下载前检查本地是否已存在同任务文件（存在且完整则复用）。
 - 命名：`店铺名_日期_原名`；AI 作品文件名含 `_AI`，**不得自行猜测 AI 属性**。
 - 移入 `paths.video_dir`。
@@ -226,7 +227,8 @@ metadata:
 6. **换一换达上限仍违禁 → 先查商品ID表话题栏（全表扫描）→ 找不到对应话题再进入人工处理**；
 7. 每处理完一个店铺先总结并记录遇到的问题和解决方法；
 8. **启动时自动读取最近一次正确运行的记录**（`paths.run_log_dir` 下最新 `YYYY-MM-DD运行记录.md`），优先复用其中已验证的正确步骤与问题解决方法，而不是每次重新计算；
-9. **新增店铺询问**：任务表存在未发布任务的店铺 X，而当前仅处理 1 个店铺 Y（X≠Y）时 → 暂停询问是否将 X 新增为处理店铺；用户拒绝则停止处理该店 X 并把习惯写入运行记录，后续运行沿用该习惯不再询问，直到用户明确表示新增店铺 X。
+9. **新增店铺询问**：任务表存在未发布任务的店铺 X，而当前仅处理 1 个店铺 Y（X≠Y）时 → 暂停询问是否将 X 新增为处理店铺；用户拒绝则停止处理该店 X 并把习惯写入运行记录，后续运行沿用该习惯不再询问，直到用户明确表示新增店铺 X；
+10. **视频工作目录缺失处理**：`paths.video_dir` 不存在 → 询问用户是否创建（同意则创建后继续；拒绝/不确定则暂停人工处理），不直接报错缺失。
 
 ## 六、红线（禁止事项）
 
