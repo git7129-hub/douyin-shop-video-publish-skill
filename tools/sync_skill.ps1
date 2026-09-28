@@ -31,7 +31,12 @@ function Put-GhFile {
     $body = $bodyObj | ConvertTo-Json -Compress
     $tmp = "$env:TEMP\gh_sync.json"
     [IO.File]::WriteAllText($tmp, $body, (New-Object System.Text.UTF8Encoding $false))
-    $out = gh api --method PUT "repos/$repo/contents/$enc" --input $tmp 2>&1 | Out-String
+    $out = ""
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        $out = gh api --method PUT "repos/$repo/contents/$enc" --input $tmp 2>&1 | Out-String
+        if ($out -match '"path"') { break }
+        if ($attempt -lt 3) { Start-Sleep -Seconds 10 }
+    }
     if ($out -match '"path"') { Write-Output "PUSH OK: $path" }
     else { Write-Output "PUSH FAIL: $path :: $($out.Trim())" }
 }
