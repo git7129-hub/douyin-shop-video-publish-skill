@@ -61,7 +61,7 @@ Copy-Item config.example.json config.json
 
 | 字段 | 填什么 | 说明 |
 |---|---|---|
-| `paths.video_dir` | 视频暂存文件夹 | 技能会把下载的视频放这里；目录需真实存在，如 `D:\douyin_shop_video_publish\temp file\` |
+| `paths.video_dir` | 视频暂存文件夹 | 技能会把下载的视频放这里，如 `D:\douyinshopvideo_publish\`（内置默认）；**目录不存在时技能会询问你是否创建**，不会直接报错中断 |
 | `paths.banned_words_xlsx` | **违禁词表**（xlsx）路径 | 表格格式：一列即可，每行一个违禁词；不配置则技能不会做违禁词检查 |
 | `paths.product_id_xlsx` | 商品ID本地表路径 | 可选（有在线表可留空）；格式：店铺/型号/商品编号 三列 |
 | `paths.run_log_dir` | 运行记录存放目录 | 如 `E:\豆包项目\抖店发布`；不配置则跳过每日记录 |
@@ -123,6 +123,7 @@ Copy-Item config.example.json config.json
 | 「话题 #xxx 加不进去」 | 必须**输入 #话题 → 等待下拉 → 选择第一个匹配**，不能纯文本输入；下拉未出现通常是输入过快，稍等再输 |
 | 「定时时间总是被平台改」 | 抖店只允许未来 2 小时-14 天定时；早于最早可定时会被平台自动调整——**以平台显示时间为准回填**，属正常 |
 | 「上传视频失败/停在 00:00」 | 页面重渲染后需重走发布面板；确认视频文件完整（非 `.crdownload`） |
+| 「视频工作目录不存在/报路径缺失」 | 技能会**询问你是否创建**（如 `D:\douyinshopvideo_publish\`）；同意即自动创建后继续。若提示路径不对，检查 `paths.video_dir` 配置值 |
 
 ---
 
