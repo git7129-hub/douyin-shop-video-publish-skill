@@ -16,7 +16,7 @@ docs/run-log/YYYY-MM-DD运行记录.md                    # 每日运行记录�
 ## 安装与使用（给新部署者）
 
 1. 将 `skills/douyin-shop-video-publish/` 整个目录复制到客户端 skills 根目录；
-2. **人**：按 `CONFIG-GUIDE.md` 手把手配置（创建 config.json → 填文档链接/路径/店铺 → 准备违禁词表与商品ID表 → 登录 → 验证，约 15 分钟）；
+2. **人**：按 `CONFIG-GUIDE.md` 手把手配置（创建 config.json → 填文档链接/路径 → 准备违禁词表与商品ID表 → 登录 → 验证，约 15 分钟；店铺清单可留空，跟随登录账号自动发现）；
 3. **执行 Agent**：按 `AGENT-GUIDE.md` 操作（全表扫描、店铺队列、发布每一步、回填、人工处理、断点续跑）；
 4. 全表扫描能读到任务表即部署成功，按 SKILL.md「二、核心执行流程」运行。
 
