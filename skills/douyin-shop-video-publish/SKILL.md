@@ -20,7 +20,7 @@ metadata:
 |---|---|
 | 支持 Agent Skills 的客户端 | 将本技能目录（含 SKILL.md）放入客户端 skills 根目录即可被识别 |
 | 浏览器自动化 | 豆包浏览器 / `computer_use_tool`（plane=bu，`seed_browser_use`） |
-| PowerShell 5.1+ | 同步脚本 `sync_skill.ps1`（可选，仅需 GitHub 同步时用） |
+| PowerShell 5.1+ | 本地同步脚本 `sync_skill.ps1`（**本地私有，不随仓库发布**；仅部署机做 GitHub 同步时用） |
 | git / gh CLI（可选） | GitHub 私有仓库同步（`gh auth login` 一次，token 持久保存在系统凭据） |
 | Python 3 + openpyxl | 读取本地违禁词表 / 商品ID.xlsx（可选，页面可替代部分功能） |
 
@@ -208,7 +208,7 @@ metadata:
 | 8 | 换一换按钮非 button 标签 | 用文本定位描述区 div/span「换一换」 |
 | 9 | 子账号无首页权限 | 短视频运营页权限正常，直接导航即可 |
 | 10 | 多 tab 切换误判「面板已关闭」 | 切回目标 tab 后发布面板/上传状态保留，避免重复上传 |
-| 11 | git 443 端口被网络拦截 | 同步改用 gh API contents 直传（`sync_skill.ps1`），不依赖 git 网络 |
+| 11 | git 443 端口被网络拦截 | 同步改用 gh API contents 直传（本地 `sync_skill.ps1`），不依赖 git 网络 |
 
 ## 五、默认业务规则（可在 config.rules 覆盖）
 
