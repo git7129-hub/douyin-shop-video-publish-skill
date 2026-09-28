@@ -61,7 +61,7 @@ Copy-Item config.example.json config.json
 
 | 字段 | 填什么 | 说明 |
 |---|---|---|
-| `paths.video_dir` | 视频暂存文件夹 | 技能会把下载的视频放这里，如 `D:\douyinshopvideo_publish\`（内置默认）；**目录不存在时技能会询问你是否创建**，不会直接报错中断 |
+| `paths.video_dir` | 视频暂存文件夹 | **默认 `./video_tmp`（相对技能目录）**：技能会把下载的视频放「技能目录\video_tmp」，与技能保存在一起便于整理；发布成功后自动移入 `video_tmp\archive\` 归档，超过 `rules.archive_keep_days` 天自动清理（默认 30 天）。也支持填绝对路径（如 `D:\myvideos\`）；**目录不存在时技能会询问你是否创建**，不会直接报错中断 |
 | `paths.banned_words_xlsx` | **违禁词表**（xlsx）路径 | 表格格式：一列即可，每行一个违禁词；不配置则技能不会做违禁词检查 |
 | `paths.product_id_xlsx` | 商品ID本地表路径 | 可选（有在线表可留空）；格式：店铺/型号/商品编号 三列 |
 | `paths.run_log_dir` | 运行记录存放目录 | 如 `E:\豆包项目\抖店发布`；不配置则跳过每日记录 |
@@ -85,6 +85,7 @@ Copy-Item config.example.json config.json
 | `rules.huan_yihuan_max` | `5` | 违禁词自动「换一换」上限 |
 | `rules.timed_hours_gap` | `2` | 同店相邻视频定时发布间隔（小时） |
 | `rules.publish_window` | `""` | 当天允许的发布时间窗口（如 `"23:59"`）；留空=不限 |
+| `rules.archive_keep_days` | `30` | 已发布视频归档保留天数，超过自动清理；填 `0`=发布成功后直接删除（不做归档） |
 
 ## 第四步：准备资产（2 分钟）
 
@@ -123,7 +124,8 @@ Copy-Item config.example.json config.json
 | 「话题 #xxx 加不进去」 | 必须**输入 #话题 → 等待下拉 → 选择第一个匹配**，不能纯文本输入；下拉未出现通常是输入过快，稍等再输 |
 | 「定时时间总是被平台改」 | 抖店只允许未来 2 小时-14 天定时；早于最早可定时会被平台自动调整——**以平台显示时间为准回填**，属正常 |
 | 「上传视频失败/停在 00:00」 | 页面重渲染后需重走发布面板；确认视频文件完整（非 `.crdownload`） |
-| 「视频工作目录不存在/报路径缺失」 | 技能会**询问你是否创建**（如 `D:\douyinshopvideo_publish\`）；同意即自动创建后继续。若提示路径不对，检查 `paths.video_dir` 配置值 |
+| 「视频工作目录不存在/报路径缺失」 | 技能会**询问你是否创建**（默认 `./video_tmp`，在技能目录下）；同意即自动创建后继续。若提示路径不对，检查 `paths.video_dir` 配置值 |
+| 「视频文件越积越多」 | 正常：发布成功的视频会移入 `video_tmp\archive\`，运行开始时自动清理超过 `rules.archive_keep_days` 天（默认 30）的归档文件；想更早删除可把该值调小（`0`=发布后立即删除） |
 
 ---
 
