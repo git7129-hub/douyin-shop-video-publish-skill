@@ -23,9 +23,5 @@
     "huan_yihuan_max": 5,
     "timed_hours_gap": 2,
     "publish_window": ""
-  },
-  "sync": {
-    "repo": "git7129-hub/douyin-shop-video-publish-skill",
-    "branch": "main"
   }
 }
