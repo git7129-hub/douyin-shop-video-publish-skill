@@ -16,7 +16,7 @@ $LogDir = "$ProjectDir"
 # Real paths (UTF-8 handled by caller; keep ASCII here for PS 5.1 safety)
 $RealProjectDir = [System.IO.File]::ReadAllText("$PSScriptRoot\.sync_realpath.txt", [System.Text.Encoding]::UTF8).Trim()
 $ProjectDir = $RealProjectDir
-$RepoDir = Join-Path $ProjectDir "_repo_sync\douyin_shop_video_publish"
+$RepoDir = Join-Path $ProjectDir "_repo_sync\douyin-shop-video-publish-skill"
 $SkillSrc = Join-Path $ProjectDir "douyin-shop-video-publish\SKILL.md"
 $LogDir = $ProjectDir
 
