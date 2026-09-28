@@ -32,16 +32,20 @@ metadata:
 6. **登录**：按 0.3 完成抖店 / 任务表平台登录；
 7. **验证**：运行一次「全表扫描」（见「二、1」）确认能读到任务表，即部署成功。
 
-### 0.3 登录流程（首次部署）
+### 0.3 登录流程（调用时引导，不保留登录状态）
 
-1. **抖店**：浏览器打开 `config.json` 的 `pages.home` → 企业微信扫码登录主账号 → 确认右上角可见店铺名与「切换组织/店铺」；
-2. **任务表平台（腾讯文档）**：打开 `sheets.task_sheet_url` → 登录 → 确认能读取数据（支持 `window.SpreadsheetApp...` JS API）。
+> 技能**内置**任务表 / 商品ID表 / 违禁词表地址（见 config.example.json），但**不保存任何登录状态**（无 cookie、无 token、无自动登录）。每次调用时由 Agent 现场引导登录：
+
+1. **抖店**：打开 `pages.home` → 未登录则引导企业微信扫码登录 → 确认右上角可见店铺名与「切换组织/店铺」；
+2. **任务表/商品ID表（腾讯文档）**：打开内置链接 → 未登录则引导用户登录（扫码/账号）→ 确认能读取数据（`window.SpreadsheetApp...` JS API）；
+3. 登录完成后仅本次会话有效，**不写入任何文件、不持久化**；下次调用需重新登录（Agent 会再次引导）。
 
 ### 0.4 安全与分享
 
-- **绝不要把真实 `config.json` 提交到公开仓库**（含任务表链接、店铺体系、本地路径）；
-- 分享时只分享本技能目录（SKILL.md + config.example.json + assets），由接收方自行填写自己的 config.json；
-- `docs/run-log/` 属运行历史，可选择性分享或保留在私有仓库。
+- **技能内置真实业务链接**（任务表/商品ID表/违禁词表地址），这些是资源地址而非凭据；打开后需登录才能看内容；
+- **不保留登录状态**：任何调用都不保存 cookie/token/密码，登录仅当次会话有效；
+- 分享给他人时，对方打开内置链接仍需其自己账号的文档权限；请自行评估分享范围，必要时可将链接替换为对方自己的文档；
+- 分享时只分享本技能目录（SKILL.md + config.example.json + 引导文档），不包含登录凭证与运行历史。
 
 ## 一、配置项说明（config.json）
 
@@ -50,11 +54,11 @@ metadata:
 | 配置键 | 说明 | 示例 |
 |---|---|---|
 | `pages.home` / `pages.publish` | 抖店首页 / 短视频运营页 URL | `https://fxg.jinritemai.com/ffa/mshop/homepage/index` |
-| `sheets.task_sheet_url` | 任务表（腾讯文档）URL | 私有 |
-| `sheets.product_sheet_url` | 商品ID在线表（含型号→编号→话题）URL | 私有 |
+| `sheets.task_sheet_url` | 任务表（腾讯文档）URL | **已内置**（config.example.json 默认值，可覆盖） |
+| `sheets.product_sheet_url` | 商品ID在线表（含型号→编号→话题）URL | **已内置**（config.example.json 默认值，可覆盖） |
 | `sheets.task_api_js` | 任务表读取 JS API | `window.SpreadsheetApp.workbook.worksheetManager.getSheetList()[0]` |
 | `paths.video_dir` | 视频暂存目录 | `D:\douyin_shop_video_publish\temp file\` |
-| `paths.banned_words_xlsx` | 违禁词表（本地 xlsx） | `D:\douyin_shop_video_publish\违禁词表.xlsx` |
+| `paths.banned_words_xlsx` | 违禁词表（本地 xlsx，也支持在线链接） | `D:\douyin_shop_video_publish\违禁词表.xlsx`（内置） |
 | `paths.product_id_xlsx` | 商品ID本地表（可选） | `D:\douyin_shop_video_publish\商品ID.xlsx` |
 | `paths.run_log_dir` | 运行记录目录 | 私有 |
 | `shops` | 店铺清单（**可留空**，跟随用户） | `[]`（默认=自动发现，见「二、2」） |
