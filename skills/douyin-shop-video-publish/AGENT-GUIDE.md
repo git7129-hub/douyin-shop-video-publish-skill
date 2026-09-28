@@ -150,8 +150,3 @@
 - 用 ref-first（`bu.snapshot` 的 document-scoped ref），ref 失效（导航/重渲染/BU_REF_STALE）→ 重新观察取新 ref；上传用 `bu.upload_file(selector,...)`。
 - 页面状态与 SOP 不一致 → 暂停人工处理，不自行猜测。
 - 登录/验证码/需要用户接管 → `interaction.request_action` type=browserControl，绝不绕过。
-
-## 8. 同步协议（可选，GitHub）
-
-- 运行记录与技能更新推送到 `sync.repo`：部署机本地执行 `sync_skill.ps1`（**本地私有工具，不随仓库发布**；gh API 直传，带重试；不依赖 git 443）。
-- 同步前确认 `gh auth status` 已登录；失败重试 3 次后仍失败 → 记录原因，不阻塞发布主流程。
