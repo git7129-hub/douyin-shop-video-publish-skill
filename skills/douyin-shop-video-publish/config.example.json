@@ -14,10 +14,7 @@
     "product_id_xlsx": "D:\\douyin_shop_video_publish\\商品ID.xlsx",
     "run_log_dir": "REPLACE_WITH_RUN_LOG_DIR"
   },
-  "shops": [
-    "REPLACE_WITH_SHOP_A",
-    "REPLACE_WITH_SHOP_B"
-  ],
+  "shops": [],
   "rules": {
     "max_concurrency": 2,
     "huan_yihuan_max": 5,
