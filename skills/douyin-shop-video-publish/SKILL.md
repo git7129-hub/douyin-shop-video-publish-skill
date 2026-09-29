@@ -247,6 +247,7 @@ metadata:
 12. **回填/清除单元格前必须先备份整表**（JS API 读 A/D/E/F 全部行存本地文件），再执行写入/清除；
 13. **禁止用 Ctrl+A+Backspace/Delete 清除单元格内容**（焦点不在编辑框时会选中整个表格并清空全表）；清除单元格：F2 → 确认 document.activeElement 是编辑框（#alloy-simple-text-editor/.formula-input）→ JS 全选编辑框内容（Range.selectNodeContents+selection.addRange）→ **execCommand('insertText', false, '') 替换选区（触发 input 事件，实测有效；execCommand('delete') 无效）** → Enter 提交 → 回读验证；
 14. **每次单元格写入/清除后立即 JS API 回读验证目标格±1 行**；Enter 后编辑框仍打开且文本空 = 未提交 → Esc 取消后重新 F2，禁止在同一编辑器上连续叠加输入/方向键；定位优先名称框跳转（bar-label 输入+Enter）并验证显示值。
+15. **阻塞问题即时沉淀（强制）**：每次遇到阻塞问题（人工处理、页面异常、误写/误操作事故、无法自动判断、登录态丢失等），在问题**解决后第一时间**把「问题现象 → 根因 → 解决方式 → 防再犯措施」总结写入当日运行记录与「四、问题与解决记录」，**然后再继续未完成的任务**；不得跳过沉淀直接继续，防止同类问题下次重现；沉淀后再继续可复用已验证步骤，避免重蹈覆辙。
 
 ## 六、红线（禁止事项）
 
