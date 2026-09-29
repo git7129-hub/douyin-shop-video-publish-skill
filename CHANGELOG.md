@@ -2,6 +2,21 @@
 
 本技能仓库的版本记录。每次更新递增版本号并创建 GitHub Release（tag = `vX.Y.Z`），Release 说明取对应版本段落。
 
+## v2.0.9
+
+**更新了什么（2026-09-29）**
+- **窄视口店铺切换方案（已验证）**：视口 639px 下抖店首页店铺名/切换入口在视口外，JS `document.documentElement.style.zoom='0.5'` 缩放后 click_xy 打开「切换组织/店铺」弹窗选店；导航后 zoom 丢失需重设（SKILL 问题15）
+- **微盘下载按钮隐藏解决**：窄视口下响应式 header 隐藏下载按钮，改从 `bu.network_requests()` 抓取 downloadobject 直链下载（URL 含 base64 票据不可硬抄，每次导航后重抓）
+- **商品编号查询纠错**：发布面板商品弹窗区分「商品名称」/「商品编号」两个输入框，编号必须输入编号框 + 真 submit「查询」按钮（SKILL 已验证操作细节）
+- **回填行号映射教训（重要）**：名称框 Excel 行号 = 数据行号 + 1（E422=数据行421），跳转一律用 `E{数据行+1}`，修改前验证编辑框显示目标单元格当前值，提交后回读 ±1 行（SKILL 问题16）
+- **WebView 键盘阻塞替代方案**：`bu.press_key`/`bu.type` 在本 WebView 被阻塞，统一改用 JS 事件链：名称框跳转用 setter+Enter 事件、编辑用 `execCommand('insertText')`、提交用 JS 派发 Enter（SKILL 已验证操作细节）
+- **单元格清除安全流程**：清除单元格禁用 Ctrl+A+Backspace（会全表选中清空整表），必须编辑框内 `Range.selectNodeContents` + `insertText('')`（SKILL 回填安全流程）
+- 新增运行记录 `2026-09-29运行记录.md` 与 `2026-09-29问题复盘报告.md`（docs/run-log/）
+
+**如何操作（升级）**
+- 将本仓库 `skills/douyin-shop-video-publish/` 整个目录覆盖到客户端 skills 根目录；
+- 已有 `config.json` 无需改动（本版未变更配置结构）；
+- 首次运行请先读 `SKILL.md` 与 `AGENT-GUIDE.md`，按「全表扫描 → 动态发现店铺 → 逐店处理」流程执行。
 ## v2.0.8
 
 **更新了什么**

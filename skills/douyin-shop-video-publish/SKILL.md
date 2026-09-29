@@ -188,6 +188,7 @@ metadata:
 - 只有发布成功后才回填：名称框跳转 E 列（如 E415）→ F2 → `alloy-simple-text-editor` 输入 `2026/9/28 13:21` 格式 → 回车 → **JS API 回读验证保存**。
 - 注意：直接调 `setCellDataAtPosition` 不持久化，必须走 UI 编辑路径。
 - 回填后及时保存；不得等全部任务完成后才回填。
+- **回填/清除安全流程（2026-09-29 事故后强制）**：① 先 JS API 备份整表到本地；② 名称框跳转目标格（验证名称框显示值）；③ F2 后确认焦点在编辑框；④ 输入用 execCommand('insertText') 或 bu.type(编辑框 ref)；清除内容同样用 insertText('') 替换全选（勿用 delete 键/Ctrl+A）；⑤ 回车提交后立即回读验证目标格±1 行；⑥ 编辑器异常（未提交/文本空/选中偏移）→ 停止并人工确认。
 
 ### 16. 每店总结记录 + 运行报告
 
@@ -206,7 +207,7 @@ metadata:
 | 描述编辑 | 点击 `.zone-container.editor-kit-container` → Ctrl+A 全选删除 → `bu.type(ref)` 输入 |
 | 定时发布 | 切换「定时发布」→ 平台自动给最早可用时间（未来2小时限制）→ 以平台显示为准 |
 | 回填 | 名称框跳转 E 列 → F2 → alloy-simple-text-editor 输入 → 回车 → API 回读验证 |
-| 店铺切换 | 首页右上角店铺名（940,30）→ 侧栏「切换组织/店铺」→ 弹窗选店 |
+| 店铺切换 | 首页右上角店铺名（940,30）→ 侧栏「切换组织/店铺」→ 弹窗选店；**窄视口（<800px）先 JS 设 style.zoom='0.5' 使店铺名进入视口，再 click_xy 缩放后坐标** |
 | 视频管理验证 | `short-video?activeTab=management` 列表搜索新记录（唯一关键词定位） |
 
 ## 四、问题与解决记录（持续追加，历史参考）
@@ -223,6 +224,12 @@ metadata:
 | 8 | 换一换按钮非 button 标签 | 用文本定位描述区 div/span「换一换」 |
 | 9 | 子账号无首页权限 | 短视频运营页权限正常，直接导航即可 |
 | 10 | 多 tab 切换误判「面板已关闭」 | 切回目标 tab 后发布面板/上传状态保留，避免重复上传 |
+| 11 | **回填/清除时 Ctrl+A+Backspace 清空整个表格（2026-09-29 事故）** | **禁止用 Ctrl+A+Backspace/Delete 清除单元格**；清除前先备份整表；F2 后确认焦点在编辑框（#alloy-simple-text-editor/.formula-input）；清除/写入后立即 JS API 回读验证目标格±1 行 |
+| 12 | 公式编辑器提交不稳定（Enter 有时不提交且清空、ArrowDown 提交偏移一行） | 提交后必须回读验证；Enter 后编辑框仍开且文本空=未提交→先 Esc 再重开 F2，禁止连续叠加输入/方向键；定位优先名称框跳转（bar-label 输入+Enter），避免点击坐标；必须点击先截图校准 |
+| 13 | 云端会话的修改本地 Ctrl+Z 无法撤销 | 每次回填/清除前先 JS API 全表备份到本地文件；误操作后优先用腾讯文档「历史版本」还原 |
+| 14 | 清除单元格内容时 execCommand('delete') 无效、空编辑框+Enter 被视为未修改（2026-09-29 实测） | 清除必须用 execCommand('insertText', false, '') 替换全选内容触发 input 事件后 Enter 提交 |
+| 15 | 窄视口（639px）下店铺名/切换入口在视口外，点击、滚动、CDP、桌面控制均不可用 | JS 设置 document.documentElement.style.zoom='0.5' 缩放页面使右侧内容进入视口，再按缩放后归一化坐标 click_xy 点击店铺名 → 切换组织/店铺 → 弹窗选店；导航后 zoom 丢失需重设 |
+| 16 | 回填误写：名称框 Excel 行号 = 数据行号 + 1（E422=数据行421），按数据行号跳转会写到上一行（2026-09-29 实测事故） | 跳转用「E{数据行+1}」；跳转后必须验证编辑框显示目标单元格当前值再修改；WebView 键盘阻塞时用 JS setter+Enter 事件跳转 |
 
 ## 五、默认业务规则（可在 config.rules 覆盖）
 
@@ -237,6 +244,9 @@ metadata:
 9. **新增店铺询问**：任务表存在未发布任务的店铺 X，而当前仅处理 1 个店铺 Y（X≠Y）时 → 暂停询问是否将 X 新增为处理店铺；用户拒绝则停止处理该店 X 并把习惯写入运行记录，后续运行沿用该习惯不再询问，直到用户明确表示新增店铺 X；
 10. **视频工作目录缺失处理**：`paths.video_dir` 不存在 → 询问用户是否创建（同意则创建后继续；拒绝/不确定则暂停人工处理），不直接报错缺失；
 11. **发布后归档与定期清理（方案 B）**：视频发布成功且任务表回填验证通过后 → 移入 `paths.video_dir/archive/`；每次运行开始时清理归档中超过 `rules.archive_keep_days` 天（默认30）的文件；`archive_keep_days=0` 则发布成功后直接删除（方案 A）。归档文件不参与断点续跑。
+12. **回填/清除单元格前必须先备份整表**（JS API 读 A/D/E/F 全部行存本地文件），再执行写入/清除；
+13. **禁止用 Ctrl+A+Backspace/Delete 清除单元格内容**（焦点不在编辑框时会选中整个表格并清空全表）；清除单元格：F2 → 确认 document.activeElement 是编辑框（#alloy-simple-text-editor/.formula-input）→ JS 全选编辑框内容（Range.selectNodeContents+selection.addRange）→ **execCommand('insertText', false, '') 替换选区（触发 input 事件，实测有效；execCommand('delete') 无效）** → Enter 提交 → 回读验证；
+14. **每次单元格写入/清除后立即 JS API 回读验证目标格±1 行**；Enter 后编辑框仍打开且文本空 = 未提交 → Esc 取消后重新 F2，禁止在同一编辑器上连续叠加输入/方向键；定位优先名称框跳转（bar-label 输入+Enter）并验证显示值。
 
 ## 六、红线（禁止事项）
 
